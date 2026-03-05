@@ -3,6 +3,7 @@ import joblib
 
 def detect_theft(data):
 
+    # load trained model
     model = joblib.load("models/theft_model.pkl")
 
     # clean column names
@@ -11,8 +12,14 @@ def detect_theft(data):
     # remove ID and label columns safely
     X = data.drop(columns=["CONS_NO", "FLAG"], errors="ignore")
 
+    # convert all values to numeric
+    X = X.apply(pd.to_numeric, errors="coerce")
+
     # handle missing values
-    X = X.fillna(X.mean())
+    X = X.fillna(0)
+
+    # ensure feature order matches training
+    X = X.iloc[:, :model.n_features_in_]
 
     # predict anomalies
     predictions = model.predict(X)
