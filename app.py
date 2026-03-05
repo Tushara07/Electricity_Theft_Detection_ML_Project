@@ -2,15 +2,27 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from predict import detect_theft
+import gdown
+import os
+
 
 st.set_page_config(page_title="Electricity Theft Detection Dashboard", layout="wide")
 
 st.title("Electricity Theft Detection Dashboard")
+
 @st.cache_data
 def load_data():
-    url = "https://drive.google.com/uc?export=download&id=1qbxrzKoLmHbXU3qUJMLr6QW0LUiseRg4"
-    return pd.read_csv(url)
 
+    file_id = "1qbxrzKoLmHbXU3qUJMLr6QW0LUiseRg4"
+    output = "electricity_data.csv"
+
+    if not os.path.exists(output):
+        url = f"https://drive.google.com/uc?id={file_id}"
+        gdown.download(url, output, quiet=False)
+
+    data = pd.read_csv(output)
+
+    return data
 
 # Button to load dataset
 if st.button("Load Dataset"):
