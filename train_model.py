@@ -3,7 +3,8 @@ from sklearn.ensemble import IsolationForest
 import joblib
 
 # load dataset
-data = pd.read_csv("data/electricity_data.csv")
+DATA_URL = "https://drive.google.com/uc?export=download&id=1qbxrzKoLmHbXU3qUJMLr6QW0LUiseRg4"
+data = pd.read_csv(DATA_URL)
 
 print("Dataset loaded successfully")
 print(data.shape)
